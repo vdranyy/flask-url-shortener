@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="jumbotron">
+    </div>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="row">
+                {{ wtf.quick_form(form) }}
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Text</th>
+                        <th>Clicks</th>
+                        <th>Short URL</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for url in urls %}
+                    <tr>
+                        <td>
+                            <a href="{{ url.full_url }}">
+                                {{ url.full_url }}
+                            </a>
+                        </td>
+                        <td>{{ url.element_text }}</td>
+                        <td>{{ url.clicks }}</td>
+                        <td>
+                            <a href="{{ url.short_url }}">
+                                {{ url.build_short_url() }}
+                            </a>
+                        </td>
+                        <td>{{ url.created }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
