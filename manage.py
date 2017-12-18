@@ -2,7 +2,7 @@ import os
 from app import create_app, db
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from app.models import Url
+from app.models import Url, User, Role
 
 
 app = create_app(os.getenv("TEST_MOBDEV") or "default")
@@ -14,7 +14,9 @@ def make_shell_context():
     return dict(
         app=app,
         db=db,
-        Url=Url
+        Url=Url,
+        User=User,
+        Role=Role
     )
 
 

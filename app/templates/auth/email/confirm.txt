@@ -1,0 +1,7 @@
+Dear {{ user.username }},
+
+To confirm your your registration click the link below:
+
+{{ url_for("auth.confirm", token=token, _external=True) }}
+
+Do not reply to this email
