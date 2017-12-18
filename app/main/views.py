@@ -18,9 +18,11 @@ def index():
             flash("Short url is already exist. Try another one.")
             return redirect(url_for("main.index"))
         new_url = Url(full_url=full_url, clicks=0, created=datetime.today())
-        if new_url.check_url() != 200:
+        element_text = new_url.check_url()
+        if not element_text:
             flash("Check url!!! Failed request %s" % new_url.full_url)
             return redirect(url_for("main.index"))
+        new_url.element_text = element_text
         db.session.add(new_url)
         db.session.commit()
         new_url.store_short_url(short_url)

@@ -28,7 +28,7 @@
                                 {{ url.full_url }}
                             </a>
                         </td>
-                        <td>{{ url.element_text }}</td>
+                        <td>{{ url.element_text|safe }}</td>
                         <td>{{ url.clicks }}</td>
                         <td>
                             <a href="{{ url.short_url }}">

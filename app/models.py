@@ -10,6 +10,7 @@ from urllib.request import urlopen
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from app import db
+from app.parser import parse
 
 
 class Url(db.Model):
@@ -48,11 +49,7 @@ class Url(db.Model):
         return res
 
     def check_url(self):
-        try:
-            response = urlopen(self.full_url)
-            return response.status
-        except ValueError:
-            return
+        return parse(self.full_url)
 
     def store_short_url(self, url=""):
         if url:
