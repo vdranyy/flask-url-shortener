@@ -1,9 +1,9 @@
 from datetime import datetime
 from flask import render_template, request, flash, \
-    redirect, url_for
+    redirect, url_for, Markup
 from app import db
 from app.main import main
-from app.main.forms import URLForm
+from app.main.forms import URLForm, EditURLForm
 from app.models import Url
 
 
@@ -32,10 +32,19 @@ def index():
     return render_template("index.html", urls=urls, form=form)
 
 
-@main.route("/detail/<short_url>")
+@main.route("/detail/<short_url>", methods=["GET", "POST"])
 def detail_url(short_url):
     url = Url.query.filter_by(short_url=short_url).first()
-    return render_template("detail_url.html", url=url)
+    form = EditURLForm(obj=url)
+    if form.validate_on_submit():
+        new_short_url = form.short_url.data
+        if Url.short_url_exists(new_short_url) and short_url != new_short_url:
+            flash("Short url is already in use.")
+            return redirect(url_for("main.detail_url", short_url=url.short_url))
+        url.short_url = new_short_url
+        url.element_text = form.element_text.data
+        return redirect(url_for("main.detail_url", short_url=url.short_url))
+    return render_template("detail_url.html", url=url, form=form)
 
 
 @main.route("/<short_url>")

@@ -61,6 +61,10 @@ class Url(db.Model):
         return "http://localhost:5000/" + self.short_url
 
     @staticmethod
+    def extract_short_url_from_form(url):
+        return url.replace("http://localhost:5000/", "")
+
+    @staticmethod
     def short_url_exists(url):
         short_url = Url.query.filter_by(short_url=url).first()
         return bool(short_url)
